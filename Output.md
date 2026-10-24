@@ -28,3 +28,51 @@
 2026-10-24T02:43:52.410+05:30  INFO 32738 --- [springsecurity] [nio-8080-exec-1] c.l.s.interceptors.MyCustomInterceptor   : Request with URL: http://localhost:8080/ came to interceptor (afterCompletion) layer at Sat Oct 24 02:43:52 IST 2026
 
 ````
+
+## 1. Filter
+
+- A Filter is responsible for intercepting HTTP requests at the initial level, before they reach the DispatcherServlet.
+Think of it as an entry gate pass checker, where some basic checks and common operations can be performed before the request enters the Spring MVC flow.
+
+### Where is it used?
+
+- Authentication checks using Spring Security filters: whether the user is authenticated or not.
+- CORS processing and validations.
+- Setting the TenantContext in a multi-tenant architecture: based on the request URL or domain, we identify the tenant, fetch the required details and set the tenant context for the current request.
+- Logging each and every API request with traceId, request time, response status and execution time.
+- Other common operations which need to be performed at the HTTP request/response level.
+
+## 2. Interceptor
+
+- As the name suggests, an Interceptor intercepts the request during the Spring MVC request processing flow.
+Basically, after the DispatcherServlet identifies the handler (controller method), the request goes through the Interceptor's preHandle() method before reaching the controller.
+
+### Where is it used?
+
+- Additional permission checks based on the requested resource or handler.
+
+- Modifying the ModelAndView before the view is rendered using postHandle().
+
+- Performing cleanup or other operations after request processing using afterCompletion().
+
+- One important thing to understand: Spring Security should generally be used for authentication and authorization enforcement rather than relying on MVC Interceptors as the primary security layer.
+
+_Also, if you want to modify REST API response bodies, postHandle() is generally not the right place because the response body may already be written. For such cases, we can use ResponseBodyAdvice._
+
+## 3. Now, let's understand where exactly these fit in the request workflow.
+
+![img.png](src/main/resources/static/img.png)
+
+
+_Note: This is a simplified flow. Exception handling and REST API responses can change some of these execution details._
+
+## 4. Questions ?
+- What happens if `preHandle()` returns false ?
+  - Request does not proceed and reach to the controller
+
+- Can we have multiple Filter and Interceptors ? 
+  - Yes, order needs to be maintained as per the requirement
+
+- Can't we do the interceptor type work in filter layer ? 
+  - Yes we can, it more depends on how you want to manage it also generally the interceptors are used to specific endpoints which needs extra access checks
+  - for eg. there are 4 endpoints which needs a permission check, then inceptor should be used as blocking each request on filter layer would not be good approach in this case and dispatcher servlet already maps the endpoint so interceptor becomes the right place
