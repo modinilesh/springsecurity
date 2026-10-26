@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 @Slf4j
+@Order(0) //this defines the order of the execution, lower the number, higher is the priority
 public class TraceIdFilter extends OncePerRequestFilter {
     private static final String TRACE_ID = UUID.randomUUID().toString();
 

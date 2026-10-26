@@ -15,6 +15,7 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 import java.io.IOException;
 
 @Component
+@Order(1)
 public class InboundApiAuditFilter extends OncePerRequestFilter {
 
     @Autowired
