@@ -12,4 +12,9 @@ public class SecurityController {
     public ResponseEntity<String> getLearningSession() {
         return new ResponseEntity<>("Hi, today's session is Authentication and Authorization", HttpStatus.OK);
     }
+
+    @GetMapping("/signin")
+    public ResponseEntity<String> signIn() {
+        return new ResponseEntity<>("Hi, you are signed in", HttpStatus.OK);
+    }
 }
