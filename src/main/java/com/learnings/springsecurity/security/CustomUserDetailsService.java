@@ -1,13 +1,14 @@
 package com.learnings.springsecurity.security;
 
-import com.learnings.springsecurity.service.UserService;
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import com.learnings.springsecurity.service.UserService;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -28,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         //this is spring user object, which is used for authentication and authorization
         //currently we are passing authorities as empty list as we are focusing on authentication only
         return org.springframework.security.core.userdetails.User.withUsername(userByUserEmail.getUserEmail())
-                .password("{noop}" + userByUserEmail.getPassword()) //adding {noop} prefix as we are using plain text passwords which are not production recommendation
+                .password(userByUserEmail.getPassword()) //This is the encoded password, which is retrieved from the database
                 .authorities(new ArrayList<>())
                 .build();
     }

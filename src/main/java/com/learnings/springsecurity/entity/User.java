@@ -1,5 +1,7 @@
 package com.learnings.springsecurity.entity;
 
+import com.learnings.springsecurity.config.SecurityConfig;
+
 public class User {
     String userName;
     String userEmail;
@@ -39,6 +41,17 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        //Hash the password before setting to the entity to avoid password leak
+        //once this password is hashed, then it can not be retrieved to plain password again
+        this.password =  SecurityConfig.passwordEncoder().encode(password); //here encode method name is misleading as this uses hashing rather encoding
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userName='" + userName + '\'' +
+                ", userEmail='" + userEmail + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

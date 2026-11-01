@@ -3,10 +3,18 @@ package com.learnings.springsecurity.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
+
+    @Bean
+    public static BCryptPasswordEncoder passwordEncoder() {
+        //This bean is required to encode the password
+        //It uses the BCrypt algorithm to encode the password
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean 
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
