@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" th:href="@{/css/auth.css}">
+</head>
+<body>
+<div class="page">
+    <div class="card">
+        <h1>Register</h1>
+        <p>Create an account, then sign in with the same email.</p>
+
+        <form th:action="@{/signup}" method="post">
+            <label for="userName">Name</label>
+            <input id="userName" name="userName" type="text" required autofocus>
+
+            <label for="userEmail">Email</label>
+            <input id="userEmail" name="userEmail" type="email" required>
+
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" required>
+
+            <button type="submit">Create account</button>
+        </form>
+
+        <p class="muted">Already have an account? <a th:href="@{/signin}">Sign in</a></p>
+    </div>
+</div>
+</body>
+</html>
