@@ -1,6 +1,8 @@
 package com.learnings.springsecurity.service;
 
 import com.learnings.springsecurity.entity.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -9,6 +11,7 @@ import java.util.List;
 @Service
 public class UserService {
     private static final List<User> DB_USERS = new ArrayList<>();
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
     static {
         User user1 = new User("Nilesh", "nileshdev@gmail.com", "nildev123"); //is storing password directly is good habit ?
@@ -32,5 +35,9 @@ public class UserService {
     }
 
 
-
+    public void createUser(User user) {
+        //validateUser(user);
+        DB_USERS.add(user);
+        log.info("User registered successfully, user: {}", user);
+    }
 }

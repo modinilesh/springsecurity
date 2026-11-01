@@ -18,8 +18,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        //get our user from db
-        com.learnings.springsecurity.entity.User userByUserEmail = userService.getUserByUserEmail(email);
+        com.learnings.springsecurity.entity.User userByUserEmail;
+        try {
+            userByUserEmail = userService.getUserByUserEmail(email);
+        } catch (IllegalArgumentException ex) {
+            throw new UsernameNotFoundException(ex.getMessage(), ex);
+        }
 
         //this is spring user object, which is used for authentication and authorization
         //currently we are passing authorities as empty list as we are focusing on authentication only
