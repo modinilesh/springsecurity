@@ -1,0 +1,45 @@
+package com.learnings.springsecurity.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import com.learnings.springsecurity.entity.User;
+
+@Service
+public class UserService {
+    private static final List<User> DB_USERS = new ArrayList<>();
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
+
+    static {
+        User user1 = new User("Nilesh", "nileshdev@gmail.com", "$2a$10$k8LtoVTsIXT1AUkm6LcEUu/c3cOMv5aaqU0qf43jknTN.wylatJ1y"); //actual password: devuser
+        User user2 = new User("nilesh", "nilesh@dev.com", "$2a$10$f3iiQMpimpqSxA9xTE/fceKiS7R1eP.zguaOzXO6D.yRomVfivyyi"); //actual password: admin
+        DB_USERS.add(user1);
+        DB_USERS.add(user2);
+    }
+
+    //This can be your actual service call which uses repository for db fetch
+    public User getUserByUserEmail(String email) {
+        //validateEmail(email);
+
+        //get user
+        for (User user : DB_USERS) {
+            if (user.getUserEmail().equalsIgnoreCase(email)) {
+                return user;
+            }
+        }
+
+        throw new IllegalArgumentException("User Not Found with userEmail: " + email);
+    }
+
+
+    public void createUser(User user) {
+        //validateUser(user);
+        DB_USERS.add(user);
+        log.info("User registered successfully, user: {}", user);
+        log.info("All users: {}", DB_USERS);
+    }
+}

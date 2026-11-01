@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign in</title>
+    <link rel="stylesheet" th:href="@{/css/auth.css}">
+</head>
+<body>
+<div class="page">
+    <div class="card">
+        <h1>Sign in</h1>
+        <p>Use your email and password to continue.</p>
+
+        <div th:if="${param.error}" class="alert error">Invalid email or password.</div>
+        <div th:if="${param.logout}" class="alert success">You have been signed out.</div>
+        <div th:if="${param.registered}" class="alert success">Account created. Sign in to continue.</div>
+
+        <form th:action="@{/signin}" method="post">
+            <label for="username">Email</label>
+            <input id="username" name="username" type="email" required autofocus>
+
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" required>
+
+            <button type="submit">Sign in</button>
+        </form>
+
+        <p class="muted">New here? <a th:href="@{/signup}">Create an account</a></p>
+    </div>
+</div>
+</body>
+</html>
